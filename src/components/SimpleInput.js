@@ -3,7 +3,7 @@ import { useState } from 'react';
 const SimpleInput = (props) => {
 
   const [enteredName, setEnteredName] = useState('');
-
+  const [enteredEmail, setEnteredEmail] = useState('');
 
 
   const enteredNameIsValid = enteredName.trim() !== '';
@@ -21,14 +21,23 @@ const SimpleInput = (props) => {
   const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
 
 
-  console.log(`Typed value: ${enteredName}`);
+  console.log(`Typed name: ${enteredName}`);
+  console.log(`Typed email: ${enteredEmail}`);
 
   const nameInputChangeHandler = event => {
     setEnteredName(event.target.value);
   };
 
+  const emailInputChangeHandler = event => {
+    setEnteredEmail(event.target.value);
+  };
+
   const nameInputBlurHandler = event => {
     setEnteredNameTouched(true);
+  };
+
+  const emailInputBlurHandler = event => {
+    
   };
 
 
@@ -63,8 +72,19 @@ const SimpleInput = (props) => {
         />
         {nameInputIsInvalid && <p className="error-text">Name must not be empty</p>}
       </div>
+
+      <div className='form-control'>
+        <label htmlFor='email'>Your Email</label>
+        <input 
+          type='text' 
+          id='email'
+          onChange={emailInputChangeHandler}
+          onBlur={emailInputBlurHandler}
+        />
+      </div>
       <div className="form-actions">
-        <button disabled={!formIsValid}>Submit</button>
+        {/* <button disabled={!formIsValid}>Submit</button> */}
+        <button>Submit</button>
       </div>
     </form>
   );
