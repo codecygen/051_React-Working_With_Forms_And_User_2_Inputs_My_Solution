@@ -7,7 +7,22 @@ const SimpleInput = (props) => {
 
 
   const enteredNameIsValid = enteredName.trim() !== '';
-  const enteredEmailIsValid = enteredEmail.trim() !== '';
+  const emailCheck = enteredEmail => {
+    const emailFilter = enteredEmail
+      .toString()
+      .toLowerCase()
+      .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+
+    if (emailFilter === null) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const enteredEmailIsValid = emailCheck(enteredEmail);
 
   const [enteredNameTouched, setEnteredNameTouched] = useState(false);
   const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
@@ -65,6 +80,7 @@ const SimpleInput = (props) => {
   }
 
   const nameInputClasses = nameInputIsInvalid ? 'form-control invalid' : 'form-control';
+  const emailInputClasses = emailInputIsInvalid ? 'form-control invalid' : 'form-control';
 
   return (
     <form onSubmit={formSubmissionHandler}>
@@ -80,7 +96,7 @@ const SimpleInput = (props) => {
         {nameInputIsInvalid && <p className="error-text">Name must not be empty</p>}
       </div>
 
-      <div className='form-control'>
+      <div className={emailInputClasses}>
         <label htmlFor='email'>Your Email</label>
         <input 
           type='text' 
@@ -89,7 +105,7 @@ const SimpleInput = (props) => {
           onBlur={emailInputBlurHandler}
           value={enteredEmail}
         />
-        {emailInputIsInvalid && <p className="error-text">Email must not be empty</p>}
+        {emailInputIsInvalid && <p className="error-text">Please enter a valid email!</p>}
       </div>
       <div className="form-actions">
         {/* <button disabled={!formIsValid}>Submit</button> */}
